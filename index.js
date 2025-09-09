@@ -210,19 +210,8 @@ async function processPlayerData() {
         console.log(jsonData);
 
         const uuid = jsonData.uuid;
-        const totalCaptureCount =
-          Object.values(
-            jsonData.extraData?.cobbledex_discovery?.registers
-          ).filter((register) => {
-            return register.normal?.status === "CAUGHT";
-          }).length || 0;
-        const totalShinyCaptureCount = Object.values(
-          jsonData.extraData?.cobbledex_discovery?.registers
-        ).filter((register) => {
-          return (
-            register.normal?.status === "CAUGHT" && register.normal?.isShiny
-          );
-        }).length;
+        const totalCaptureCount = jsonData.totalCaptureCount;
+        const totalShinyCaptureCount = jsonData.totalShinyCaptureCount;
         const username = await getUsernameFromUUID(uuid);
 
         results.push({
