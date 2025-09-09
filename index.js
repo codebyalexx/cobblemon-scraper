@@ -172,7 +172,10 @@ async function generateImage(data, filename, title) {
 
 </html>`;
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    executablePath: "/usr/bin/chromium-browser", // adjust if different
+    headless: true,
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 1200, height: 600 });
   await page.setContent(htmlContent);
@@ -206,8 +209,6 @@ async function processPlayerData() {
         const filePath = path.join(subdirPath, file);
         const rawData = fs.readFileSync(filePath);
         const jsonData = JSON.parse(rawData);
-
-        console.log(jsonData);
 
         const uuid = jsonData.uuid;
         const totalCaptureCount = jsonData.totalCaptureCount;
