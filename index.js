@@ -211,8 +211,9 @@ async function processPlayerData() {
         const jsonData = JSON.parse(rawData);
 
         const uuid = jsonData.uuid;
-        const totalCaptureCount = jsonData.totalCaptureCount;
-        const totalShinyCaptureCount = jsonData.totalShinyCaptureCount;
+        const totalCaptureCount = jsonData.advancementData.totalCaptureCount;
+        const totalShinyCaptureCount =
+          jsonData.advancementData.totalShinyCaptureCount;
         const username = await getUsernameFromUUID(uuid);
 
         results.push({
