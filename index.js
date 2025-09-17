@@ -8,12 +8,19 @@ const app = express();
 const PORT = 3010;
 
 // Chemin vers le répertoire cobblemonplayerdata
-const dataDir = path.join(
+const cobblemonDataDir = path.join(
   __dirname,
   "..",
-  "cobblemon-new-era",
+  "star-academy",
   "world",
   "cobblemonplayerdata"
+);
+const statsDataDir = path.join(
+  __dirname,
+  "..",
+  "star-academy",
+  "world",
+  "stats"
 );
 const publicDir = path.join(__dirname, "public");
 if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir);
@@ -190,13 +197,14 @@ async function generateImage(data, filename, title) {
 
 // Fonction principale pour traiter les fichiers JSON
 async function processPlayerData() {
-  let results = [];
+  let cobblemonResults = [];
+  let deathResults = [];
 
   // Lire les sous-dossiers dans le répertoire principal
-  const subdirs = fs.readdirSync(dataDir);
+  const subdirs = fs.readdirSync(cobblemonDataDir);
 
   for (const subdir of subdirs) {
-    const subdirPath = path.join(dataDir, subdir);
+    const subdirPath = path.join(cobblemonDataDir, subdir);
 
     // Vérifier si c'est un dossier
     if (fs.statSync(subdirPath).isDirectory()) {
@@ -216,7 +224,7 @@ async function processPlayerData() {
           jsonData.advancementData.totalShinyCaptureCount;
         const username = await getUsernameFromUUID(uuid);
 
-        results.push({
+        cobblemonResults.push({
           uuid,
           username,
           totalCaptureCount,
@@ -226,12 +234,33 @@ async function processPlayerData() {
     }
   }
 
+  const statFiles = fs
+    .readdirSync(statsDataDir)
+    .filter((file) => file.endsWith(".json"));
+  for (const file of statFiles) {
+    const filePath = path.join(statsDataDir, file);
+    const rawData = fs.readFileSync(filePath);
+    const jsonData = JSON.parse(rawData);
+
+    const deathCount = jsonData.stats["minecraft:custom"]["minecraft:deaths"];
+    const username = await getUsernameFromUUID(file.split(".")[0]);
+
+    deathResults.push({
+      uuid: file.split(".")[0],
+      username,
+      deathCount,
+    });
+  }
+
   // Trier et générer les images
-  const sortedCaptures = [...results].sort(
+  const sortedCaptures = [...cobblemonResults].sort(
     (a, b) => b.totalCaptureCount - a.totalCaptureCount
   );
-  const sortedShiny = [...results].sort(
+  const sortedShiny = [...cobblemonResults].sort(
     (a, b) => b.totalShinyCaptureCount - a.totalShinyCaptureCount
+  );
+  const sortedDeaths = [...deathResults].sort(
+    (a, b) => b.deathCount - a.deathCount
   );
 
   await generateImage(
@@ -249,6 +278,14 @@ async function processPlayerData() {
     })),
     "tab2.png",
     "Classement des Captures Shiny"
+  );
+  await generateImage(
+    sortedDeaths.map((p) => ({
+      username: p.username,
+      count: p.deathCount,
+    })),
+    "tab3.png",
+    "Qui est le plus GUEZ (morts)"
   );
 }
 
