@@ -1,5 +1,11 @@
 FROM node:22-alpine
 
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+# Créer un utilisateur non-root
+RUN addgroup -S pptruser && adduser -S -G pptruser pptruser
+USER pptruser
+
 # Installer Chromium et ses dépendances
 RUN apk add --no-cache \
     chromium \
