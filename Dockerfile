@@ -7,14 +7,18 @@ RUN apk add --no-cache \
     freetype \
     harfbuzz \
     ca-certificates \
-    ttf-freefont
+    ttf-freefont \
+    python3 \
+    make \
+    g++ \
+    bash
 
 # Indiquer à Puppeteer où trouver Chromium
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 EXPOSE 3000
 
