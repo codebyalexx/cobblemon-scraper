@@ -2,26 +2,17 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const puppeteer = require("puppeteer");
-const { createCanvas } = require("canvas");
 
 const app = express();
 const PORT = 3010;
 
-// Chemin vers le répertoire cobblemonplayerdata
+const serverBaseDir = path.join("/app/server");
 const cobblemonDataDir = path.join(
-  __dirname,
-  "..",
-  "star-academy",
+  serverBaseDir,
   "world",
   "cobblemonplayerdata"
 );
-const statsDataDir = path.join(
-  __dirname,
-  "..",
-  "star-academy",
-  "world",
-  "stats"
-);
+const statsDataDir = path.join(serverBaseDir, "world", "stats");
 const publicDir = path.join(__dirname, "public");
 if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir);
 
@@ -43,7 +34,7 @@ async function getUsernameFromUUID(uuid) {
   }
 }
 
-async function generateImage(data, filename, title) {
+async function generateImage(data, filename, title, dataText = "Valeur") {
   const htmlContent = `
     <html>
 
@@ -123,7 +114,7 @@ async function generateImage(data, filename, title) {
           <tr class="border-b border-white/10">
             <th class="text-white/70 w-24 p-4 text-left">Position</th>
             <th class="text-white/70 p-4 text-left">Joueur</th>
-            <th class="text-white/70 p-4 text-right">Captures</th>
+            <th class="text-white/70 p-4 text-right">${dataText}</th>
           </tr>
         </thead>
         <tbody>
@@ -243,12 +234,15 @@ async function processPlayerData() {
     const jsonData = JSON.parse(rawData);
 
     const deathCount = jsonData.stats["minecraft:custom"]["minecraft:deaths"];
+    const timePlayed =
+      jsonData.stats["minecraft:custom"]["minecraft:play_time"];
     const username = await getUsernameFromUUID(file.split(".")[0]);
 
     deathResults.push({
       uuid: file.split(".")[0],
       username,
       deathCount,
+      timePlayed,
     });
   }
 
@@ -262,6 +256,9 @@ async function processPlayerData() {
   const sortedDeaths = [...deathResults].sort(
     (a, b) => b.deathCount - a.deathCount
   );
+  const sortedTimePlayed = [...deathResults].sort(
+    (a, b) => b.timePlayed - a.timePlayed
+  );
 
   await generateImage(
     sortedCaptures.map((p) => ({
@@ -269,7 +266,8 @@ async function processPlayerData() {
       count: p.totalCaptureCount,
     })),
     "tab1.png",
-    "Classement des Captures"
+    "Classement des Captures",
+    "Captures"
   );
   await generateImage(
     sortedShiny.map((p) => ({
@@ -277,7 +275,8 @@ async function processPlayerData() {
       count: p.totalShinyCaptureCount,
     })),
     "tab2.png",
-    "Classement des Captures Shiny"
+    "Classement des Captures Shiny",
+    "Captures Shiny"
   );
   await generateImage(
     sortedDeaths.map((p) => ({
@@ -285,7 +284,17 @@ async function processPlayerData() {
       count: p.deathCount,
     })),
     "tab3.png",
-    "Qui est le plus GUEZ (morts)"
+    "Qui est le plus GUEZ (morts)",
+    "Morts"
+  );
+  await generateImage(
+    sortedTimePlayed.map((p) => ({
+      username: p.username,
+      count: p.timePlayed,
+    })),
+    "tab4.png",
+    "Qui pue le plus (temps de jeu)",
+    "Heures de jeu"
   );
 }
 
