@@ -301,8 +301,8 @@ async function processPlayerData() {
 processPlayerData();
 setInterval(() => {
   processPlayerData();
-}, 60 * 1000 * 30);
-// every 30 minutes
+}, 60 * 1000 * 5);
+// every 5 minutes
 
 app.use("/images", express.static(publicDir));
 app.listen(PORT, () =>
