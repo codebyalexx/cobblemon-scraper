@@ -291,7 +291,7 @@ async function processPlayerData() {
   await generateImage(
     sortedTimePlayed.map((p) => ({
       username: p.username,
-      count: p.timePlayed,
+      count: Math.round((p.timePlayed / 72000) * 100) / 100,
     })),
     "tab4.png",
     "Qui pue le plus (temps de jeu)",
