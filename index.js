@@ -4,7 +4,7 @@ const express = require("express");
 const puppeteer = require("puppeteer");
 
 const app = express();
-const PORT = 3010;
+const PORT = 3000;
 
 const serverBaseDir = path.join("/app/server");
 const cobblemonDataDir = path.join(
