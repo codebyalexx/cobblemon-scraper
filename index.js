@@ -63,8 +63,6 @@ async function generateImage(data, filename, title, dataText = "score") {
 
       body {
         background: linear-gradient(#322e81, #7c194f);
-        height: 100vh;
-        width: 100vw;
       }
 
       .title {
@@ -112,7 +110,7 @@ async function generateImage(data, filename, title, dataText = "score") {
 <body>
   <div class="w-full flex items-center justify-center py-6">
     <div
-      class="-skew-x-12 bg-gradient-to-r from-yellow-300 to-yellow-500 text-2xl text-black font-bold px-6 py-2 -left-2 shadow-lg">
+      class="-skew-x-12 bg-gradient-to-r from-yellow-300 to-yellow-500 text-4xl text-black font-bold px-8 py-4 -left-2 shadow-lg">
      ${title}
     </div>
   </div>
@@ -122,7 +120,15 @@ async function generateImage(data, filename, title, dataText = "score") {
       >
       ${data.map(
         (row, i) => `<div
-          class="w-full flex items-center justify-between p-2 px-4 rounded-lg border-8 border-[#f5e32d]"
+          class="w-full flex items-center justify-between p-2 px-4 rounded-lg border-8 border-${
+            i === 0
+              ? "yellow-400"
+              : i === 1
+              ? "slate-400"
+              : i === 2
+              ? "amber-700"
+              : "white/25"
+          }"
         >
           <div class="flex items-center gap-10">
             <div class="flex items-center gap-2">
@@ -141,7 +147,7 @@ async function generateImage(data, filename, title, dataText = "score") {
             ? "text-slate-400"
             : i === 2
             ? "text-amber-700"
-            : "hidden"
+            : "text-white/50"
         } w-10 h-10"></i>
               <span class="text-white font-bold text-3xl">${i + 1}</span>
             </div>
