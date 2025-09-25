@@ -34,70 +34,80 @@ async function getUsernameFromUUID(uuid) {
   }
 }
 
-async function generateImage(data, filename, title, dataText = "Valeur") {
+async function generateImage(data, filename, title, dataText = "score") {
   const htmlContent = `
     <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type="text/tailwindcss">
-    @theme {
-          --color-clifford: #da373d;
-        }
-      </style>
-  <style>
-    @font-face {
-    font-family: 'LucideIcons';
-    src: url(https://unpkg.com/lucide-static@latest/font/Lucide.ttf) format('truetype');
-  }
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-* {
-   font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-clifford: #da373d;
+      }
+    </style>
+    <style>
+      @font-face {
+        font-family: "LucideIcons";
+        src: url(https://unpkg.com/lucide-static@latest/font/Lucide.ttf)
+          format("truetype");
+      }
+      @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+      * {
+        font-family: "Figtree", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+      }
 
-    body {
-      background-color: #000;
-    }
+      body {
+        background: linear-gradient(#322e81, #7c194f);
+        height: 100vh;
+        width: 100vw;
+      }
 
-    .title {
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-      color: #fff;
-      font-weight: 600;
-      text-align: center;
-      margin: 30px 0;
-      font-size: 34px;
-    }
+      .title {
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+        margin: 30px 0;
+        font-size: 34px;
+      }
 
-    .element {
-      max-width: 720px;
-    }
+      .element-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 100%;
+      }
 
-    .element:nth-child(1) {
-      background-color: #f5e32d;
-    }
+      .element {
+        max-width: 720px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
 
-    .element:nth-child(2) {
-      background-color: #e8d0b3!important;
-    }
+      .element:nth-child(1) {
+        background-color: #f5e32d;
+      }
 
-    .element:nth-child(3) {
-      background-color: #dc6e2c;
-    }
+      .element:nth-child(2) {
+        background-color: #e8d0b3 !important;
+      }
 
-    .element:nth-child(2n) {
-      background-color: #1e89ca;
-    }
+      .element:nth-child(3) {
+        background-color: #dc6e2c;
+      }
 
-    
-  </style>
-</head>
+      .element:nth-child(2n) {
+        background-color: #1e89ca;
+      }
+    </style>
+  </head>
 
 <body>
   <div class="w-full flex items-center justify-center py-6">
@@ -106,61 +116,64 @@ async function generateImage(data, filename, title, dataText = "Valeur") {
      ${title}
     </div>
   </div>
-   <div class="pb-12 flex items-center justify-center">
-    <div
-      class="element mt-16 bg-gradient-to-b from-black/95 to-black/90 rounded-lg overflow-hidden border border-white/10 shadow-2xl min-w-fit w-full">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b border-white/10">
-            <th class="text-white/70 w-24 p-4 text-left">Position</th>
-            <th class="text-white/70 p-4 text-left">Joueur</th>
-            <th class="text-white/70 p-4 text-right">${dataText}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <div>
-            ${data.map(
-              (row, i) => `<tr class="group relative cursor-pointer"
-              >
-              <td class="relative p-4">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="trophy" class="${
-                    i === 0
-                      ? "text-yellow-400"
-                      : i === 1
-                      ? "text-slate-400"
-                      : i === 2
-                      ? "text-amber-700"
-                      : "hidden"
-                  }"></i>
-                  <span class="text-white font-bold">${i + 1}</span>
+   <div class="flex items-center justify-center">
+      <div
+        class="mt-8 bg-black/30 rounded-lg overflow-hidden border border-white/10 shadow-2xl min-w-fit w-full max-w-6xl p-6 space-y-4"
+      >
+      ${data.map(
+        (row, i) => `<div
+          class="w-full flex items-center justify-between p-2 px-4 rounded-lg border-8 border-[#f5e32d]"
+        >
+          <div class="flex items-center gap-10">
+            <div class="flex items-center gap-2">
+              <i data-lucide="${
+                i === 0
+                  ? "crown"
+                  : i === 1
+                  ? "trophy"
+                  : i === 2
+                  ? "award"
+                  : "star"
+              }" class="${
+          i === 0
+            ? "text-yellow-400"
+            : i === 1
+            ? "text-slate-400"
+            : i === 2
+            ? "text-amber-700"
+            : "hidden"
+        } w-10 h-10"></i>
+              <span class="text-white font-bold text-3xl">${i + 1}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-lg bg-white/10 overflow-hidden">
+                  <img
+                    src="https://mc-heads.net/avatar/${row.username}/100"
+                    alt="${row.username}"
+                    class="w-full h-full object-cover"
+                  />
                 </div>
-              </td>
-              <td class="p-4">
-                <div class="flex items-center gap-3">
-                  <div class="relative">
-                    <div class="w-10 h-10 rounded-full bg-white/10 overflow-hidden">
-                      <img src="https://mc-heads.net/avatar/${
-                        row.username
-                      }/100" alt="player username"
-                        class="w-full h-full object-cover" />
-                    </div>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-white font-medium">${row.username}</span>
-                  </div>
-                </div>
-              </td>
-              <td class="p-4 text-right">
-                <span class="font-mono text-white font-bold">${row.count}</span>
-              </td>
-            </tr>`
-            )}
+              </div>
+              <div class="flex flex-col">
+                <span class="text-white font-medium text-3xl">${
+                  row.username
+                }</span>
+              </div>
+            </div>
           </div>
-        </tbody>
-      </table>
+          <div class="p-4 text-right">
+            <p
+              class="font-mono font-bold text-3xl bg-gradient-to-r from-yellow-400 to-orange-300 bg-clip-text text-transparent"
+            >
+              ${row.count}
+            </p>
+            <p class="text-white font-bold text-xl">${dataText}</p>
+          </div>
+        </div>`
+      )}
+      </div>
     </div>
-  </div>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script>

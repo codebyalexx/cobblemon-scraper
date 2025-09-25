@@ -14,16 +14,18 @@
         src: url(https://unpkg.com/lucide-static@latest/font/Lucide.ttf)
           format("truetype");
       }
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
       * {
-        font-family: "Montserrat", sans-serif;
+        font-family: "Figtree", sans-serif;
         font-optical-sizing: auto;
-        font-weight: 400;
+        font-weight: 700;
         font-style: normal;
       }
 
       body {
-        background-color: #000;
+        background: linear-gradient(#322e81, #7c194f);
+        height: 100vh;
+        width: 100vw;
       }
 
       .title {
@@ -46,6 +48,8 @@
 
       .element {
         max-width: 720px;
+        border-radius: 10px;
+        overflow: hidden;
       }
 
       .element:nth-child(1) {
@@ -67,59 +71,49 @@
   </head>
 
   <body>
-    <div class="w-full flex items-center justify-center py-6">
+    <div class="w-full flex items-center justify-center py-12">
       <div
-        class="-skew-x-12 bg-gradient-to-r from-yellow-300 to-yellow-500 text-2xl text-black font-bold px-6 py-2 -left-2 shadow-lg"
+        class="-skew-x-12 bg-gradient-to-r from-yellow-300 to-yellow-500 text-6xl text-black font-bold px-10 py-4 -left-2 shadow-lg"
       >
         Classement des captures
       </div>
     </div>
-    <div class="pb-12 flex items-center justify-center">
+    <div class="flex items-center justify-center">
       <div
-        class="element mt-16 bg-gradient-to-b from-black/95 to-black/90 rounded-lg overflow-hidden border border-white/10 shadow-2xl min-w-fit w-full"
+        class="mt-8 bg-black/30 rounded-lg overflow-hidden border border-white/10 shadow-2xl min-w-fit w-full max-w-6xl p-6 space-y-4"
       >
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-white/10">
-              <th class="text-white/70 w-24 p-4 text-left">Position</th>
-              <th class="text-white/70 p-4 text-left">Joueur</th>
-              <th class="text-white/70 p-4 text-right">Captures</th>
-            </tr>
-          </thead>
-          <tbody>
-            <AnimatePresence>
-              <tr class="group relative cursor-pointer">
-                <td class="relative p-4">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="trophy" class="text-[#f5e32d]"></i>
-                    <span class="text-white font-bold">1</span>
-                  </div>
-                </td>
-                <td class="p-4">
-                  <div class="flex items-center gap-3">
-                    <div class="relative">
-                      <div
-                        class="w-10 h-10 rounded-full bg-white/10 overflow-hidden"
-                      >
-                        <img
-                          src="https://i.pinimg.com/474x/54/f4/b5/54f4b55a59ff9ddf2a2655c7f35e4356.jpg"
-                          alt="player username"
-                          class="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-                    <div class="flex flex-col">
-                      <span class="text-white font-medium">LeVraiPumba</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="p-4 text-right">
-                  <span class="font-mono text-white font-bold">600</span>
-                </td>
-              </tr>
-            </AnimatePresence>
-          </tbody>
-        </table>
+        <div
+          class="w-full flex items-center justify-between p-2 px-4 rounded-lg border-8 border-[#f5e32d]"
+        >
+          <div class="flex items-center gap-10">
+            <div class="flex items-center gap-2">
+              <i data-lucide="crown" class="text-[#f5e32d] w-10 h-10"></i>
+              <span class="text-white font-bold text-3xl">#1</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-lg bg-white/10 overflow-hidden">
+                  <img
+                    src="https://i.pinimg.com/474x/54/f4/b5/54f4b55a59ff9ddf2a2655c7f35e4356.jpg"
+                    alt="player username"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-white font-medium text-3xl">LeVraiPumba</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 text-right">
+            <p
+              class="font-mono font-bold text-3xl bg-gradient-to-r from-yellow-400 to-orange-300 bg-clip-text text-transparent"
+            >
+              600
+            </p>
+            <p class="text-white font-bold text-xl">Captures</p>
+          </div>
+        </div>
       </div>
     </div>
 
